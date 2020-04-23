@@ -3,13 +3,14 @@
 
 Redis-based caching proxy for Google Maps API queries.
 
-<img src="https://raw.githubusercontent.com/evanx/geo-cache/master/docs/readme/main2.png"/>
+<img src="https://raw.githubusercontent.com/crivoina/geo-cache/master/docs/readme/main2.png"/>
 
 ## Use case
 
 We require a local proxy to cache requests to Google Maps API into Redis.
 
 - The cache will ignore `sessionToken` query parameter from the requests, which allows you to reduce a little bit the costs of the Google API bill.
+- Specific removal of cache after 30 days as Google API business plan requires 
 
 ## Usage
 
@@ -30,9 +31,9 @@ where this service is running on port `8851`
 
 We can build and run via Docker:
 ```
-docker build -t geo-cache https://github.com/evanx/geo-cache.git
+docker build -t geo-cache https://github.com/crivoina/geo-cache.git
 ```
-See https://github.com/evanx/geo-cache/blob/master/Dockerfile
+See https://github.com/crivoina/geo-cache/blob/master/Dockerfile
 ```
 FROM node:7.5.0
 ADD package.json .
@@ -91,7 +92,7 @@ docker run \
 
 Alternatively you can `git clone` etc:
 ```
-git clone https://github.com/evanx/geo-cache.git
+git clone https://github.com/crivoina/geo-cache.git
 cd geo-cache
 npm install
 apiKey=$MAPS_API_KEY npm start
@@ -127,7 +128,7 @@ redis-cli ttl cache-geo-cache:64bdaff72bfc67deb55326022371ffef3ace9c7b:json
 
 ## Config spec
 
-See `lib/spec.js` https://github.com/evanx/geo-cache/blob/master/lib/spec.js
+See `lib/spec.js` https://github.com/crivoina/geo-cache/blob/master/lib/spec.js
 ```javascript
 module.exports = {
     description: 'Redis-based caching proxy for Google Maps API queries.',
@@ -172,7 +173,7 @@ where `shortExpireSeconds` is used to cache `ZERO_RESULTS` responses for a short
 
 ## Implementation
 
-See `lib/main.js` https://github.com/evanx/geo-cache/blob/master/lib/main.js
+See `lib/main.js` https://github.com/crivoina/geo-cache/blob/master/lib/main.js
 ```javascript
 module.exports = async appx => {
     const {config, logger, client, api} = appx;
@@ -265,7 +266,7 @@ api.get('/metrics', async ctx => {
                 name: 'pre',
                 content: JSON.stringify(metrics, null, 2)}
             ],
-            footerLink: 'https://github.com/evanx/geo-cache'
+            footerLink: 'https://github.com/crivoina/geo-cache'
         });
     } else {
         ctx.body = metrics;
@@ -287,6 +288,3 @@ where we extract the `config` from `process.env` according to the `spec` and inv
 See https://github.com/evanx/redis-koa-app-rpf.
 
 This provides lifecycle boilerplate to reuse across similar applications.
-
-<hr>
-https://twitter.com/@evanxsummers
