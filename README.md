@@ -1,5 +1,5 @@
 
-# geo-cache
+# geo-cache - thanks to @evanx
 
 Redis-based caching proxy for Google Maps API queries.
 
@@ -8,6 +8,8 @@ Redis-based caching proxy for Google Maps API queries.
 ## Use case
 
 We require a local proxy to cache requests to Google Maps API into Redis.
+
+- The cache will ignore `sessionToken` query parameter from the requests, which allows you to reduce a little bit the costs of the Google API bill.
 
 ## Usage
 
